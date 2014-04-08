@@ -40,4 +40,13 @@ public class CustomItem {
 		item.setItemMeta(meta);
 		return item;
 	}
+
+	public void apply(ItemStack item) {
+		item.setType(this.material.getItemType());
+		item.setData(this.material);
+		ItemMeta meta = item.getItemMeta();
+		meta.setDisplayName(this.name);
+		meta.setLore(this.lore);
+		item.setItemMeta(meta);
+	}
 }
