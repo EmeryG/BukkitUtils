@@ -1,0 +1,4 @@
+MPN = Microseconds to wait between each note.
+BASS_DRUM, PIANO, etc. = Instruments, see org.spacehq.bukkitutils.music.Instrument.
+| = Pause, no note plays.
+A/A#/B/C/etc. = Notes.
