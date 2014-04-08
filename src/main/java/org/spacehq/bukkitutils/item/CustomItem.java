@@ -8,12 +8,12 @@ import java.util.List;
 
 public class CustomItem {
 	private String name;
-	private List<String> lore;
+	private List<String> defaultLore;
 	private MaterialData material;
 
-	public CustomItem(String name, List<String> lore, MaterialData material) {
+	public CustomItem(String name, List<String> defaultLore, MaterialData material) {
 		this.name = name;
-		this.lore = lore;
+		this.defaultLore = defaultLore;
 		this.material = material;
 		if(this.material.getItemType().getMaxDurability() > 0) {
 			this.material.setData((byte) 0);
@@ -24,8 +24,8 @@ public class CustomItem {
 		return this.name;
 	}
 
-	public List<String> getLore() {
-		return this.lore;
+	public List<String> getDefaultLore() {
+		return this.defaultLore;
 	}
 
 	public MaterialData getMaterial() {
@@ -36,7 +36,7 @@ public class CustomItem {
 		ItemStack item = new ItemStack(this.material.getItemType(), amount, this.material.getData());
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(this.name);
-		meta.setLore(this.lore);
+		meta.setLore(this.defaultLore);
 		item.setItemMeta(meta);
 		return item;
 	}
@@ -46,7 +46,7 @@ public class CustomItem {
 		item.setData(this.material);
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(this.name);
-		meta.setLore(this.lore);
+		meta.setLore(this.defaultLore);
 		item.setItemMeta(meta);
 	}
 }
