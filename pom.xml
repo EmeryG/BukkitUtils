@@ -59,6 +59,11 @@
             <id>spacehq-snapshots</id>
             <url>http://repo.spacehq.org/content/repositories/snapshots/</url>
         </repository>
+        <repository>
+            <id>comphenix-rep</id>
+            <name>Comphenix Repository</name>
+            <url>http://repo.comphenix.net/content/groups/public</url>
+        </repository>
     </repositories>
 
     <properties>
@@ -71,6 +76,11 @@
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
             <version>1.7.5-R0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib</artifactId>
+            <version>3.1.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -107,9 +117,9 @@
                         </goals>
                         <configuration>
                             <artifactSet>
-                                <excludes>
-                                    <exclude>org.bukkit:bukkit</exclude>
-                                </excludes>
+                                <includes>
+                                    <include>com.google.code.gson:gson</include>
+                                </includes>
                             </artifactSet>
                         </configuration>
                     </execution>

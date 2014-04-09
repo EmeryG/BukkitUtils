@@ -3,7 +3,6 @@ package org.spacehq.bukkitutils.reflect;
 import java.lang.reflect.Field;
 
 public class SafeField {
-
 	private Class<?> clazz;
 	private String name;
 
@@ -22,4 +21,13 @@ public class SafeField {
 		}
 	}
 
+	public void set(Object instance, Object value) {
+		try {
+			Field field = this.clazz.getDeclaredField(this.name);
+			field.setAccessible(true);
+			field.set(instance, value);
+		} catch(Exception e) {
+			throw new ReflectException("Could not set value of field \"" + this.name + "\" of class \"" + this.clazz.getName() + "\".", e);
+		}
+	}
 }

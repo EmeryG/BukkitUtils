@@ -1,4 +1,4 @@
-package org.spacehq.bukkitutils.item;
+package org.spacehq.bukkitutils.custom.item;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;

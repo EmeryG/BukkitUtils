@@ -1,4 +1,4 @@
-package org.spacehq.bukkitutils.item;
+package org.spacehq.bukkitutils.custom.item;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
