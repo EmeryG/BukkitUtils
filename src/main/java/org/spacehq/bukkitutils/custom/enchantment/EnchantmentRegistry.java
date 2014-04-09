@@ -126,14 +126,9 @@ public class EnchantmentRegistry {
 			if(item != null) {
 				Map<Enchantment, Integer> enchantments = item.getEnchantments();
 				if(enchantments.size() > 0) {
+					List<String> lore = new ArrayList<String>();
 					for(Enchantment enchantment : enchantments.keySet()) {
 						item.removeEnchantment(enchantment);
-						ItemMeta meta = item.getItemMeta();
-						List<String> lore = meta.getLore();
-						if(lore == null) {
-							lore = new ArrayList<String>();
-						}
-
 						String name = enchantment.getName();
 						if(enchantment instanceof CustomEnchantment) {
 							name = ((CustomEnchantment) enchantment).getDisplayName();
@@ -141,11 +136,16 @@ public class EnchantmentRegistry {
 							name = NAME_MAP.get(enchantment);
 						}
 
-						lore.add(ChatColor.RESET.toString() + ChatColor.GRAY + name + ChatColor.RESET + ChatColor.GRAY + " " + RomanNumeral.toRomanNumeral(enchantments.get(enchantment)));
-						meta.setLore(lore);
-						item.setItemMeta(meta);
+						lore.add(ChatColor.RESET.toString() + ChatColor.GRAY + name + ChatColor.RESET + ChatColor.GRAY + " " + RomanNumeral.toRomanNumeral(enchantments.get(enchantment)) + ChatColor.RESET + ChatColor.ITALIC + ChatColor.DARK_PURPLE);
 					}
 
+					ItemMeta meta = item.getItemMeta();
+					if(meta.getLore() != null) {
+						lore.addAll(meta.getLore());
+					}
+
+					meta.setLore(lore);
+					item.setItemMeta(meta);
 					item = addGlow(item);
 				}
 			}
