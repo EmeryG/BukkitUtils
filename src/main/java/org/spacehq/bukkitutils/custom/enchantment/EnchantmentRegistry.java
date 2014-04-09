@@ -6,6 +6,8 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.reflect.StructureModifier;
+import com.comphenix.protocol.wrappers.WrappedDataWatcher;
+import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 import org.bukkit.ChatColor;
 import org.bukkit.command.defaults.EnchantCommand;
 import org.bukkit.enchantments.Enchantment;
@@ -88,6 +90,41 @@ public class EnchantmentRegistry {
 			public void onPacketSending(PacketEvent event) {
 				StructureModifier<ItemStack> items = event.getPacket().getItemModifier();
 				items.write(0, modifyItems(items.read(0))[0]);
+			}
+		});
+
+		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Server.ENTITY_METADATA) {
+			@Override
+			public void onPacketSending(PacketEvent event) {
+				StructureModifier<List<WrappedWatchableObject>> watchable = event.getPacket().getWatchableCollectionModifier();
+				List<WrappedWatchableObject> objects = watchable.read(0);
+				List<WrappedWatchableObject> result = new ArrayList<WrappedWatchableObject>();
+				for(WrappedWatchableObject object : objects) {
+					if(object.getType() == ItemStack.class) {
+						ItemStack item = modifyItems((ItemStack) object.getValue())[0];
+						object.setValue(item);
+					}
+
+					result.add(object);
+				}
+
+				watchable.write(0, objects);
+			}
+		});
+
+		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Server.NAMED_ENTITY_SPAWN, PacketType.Play.Server.SPAWN_ENTITY_LIVING) {
+			@Override
+			public void onPacketSending(PacketEvent event) {
+				StructureModifier<WrappedDataWatcher> watchable = event.getPacket().getDataWatcherModifier();
+				WrappedDataWatcher objects = watchable.read(0);
+				WrappedDataWatcher result = new WrappedDataWatcher();
+				for(WrappedWatchableObject object : objects) {
+					if(object.getType() == BukkitReflection.getNMSClass("ItemStack")) {
+						result.setObject(object.getIndex(), modifyItems((ItemStack) object.getValue())[0]);
+					}
+				}
+
+				watchable.write(0, objects);
 			}
 		});
 	}
